@@ -127,7 +127,7 @@ class ResNet(nn.Module):
         self.avgpool = nn.AvgPool3d(
             (last_duration, last_size, last_size), stride=1)
 
-        self.dropout = nn.Dropout3d(p=0.7, inplace=True)
+        self.dropout = nn.Dropout3d(p=0.5, inplace=True)
 
         self.fc = nn.Linear(8192 * block.expansion, num_classes)
 
@@ -213,18 +213,18 @@ def get_fine_tuning_parameters(model, ft_portion):
     #return model
 
 
-#def resnet18(**kwargs):
+def resnet18(num_classes=400):
     """Constructs a ResNet-18 model.
     """
-    #model = ResNet(BasicBlock, [2, 2, 2, 2], **kwargs)
-    #return model
+    model = ResNet(BasicBlock, [2, 2, 2, 2], num_classes=num_classes)
+    return model
 
 
-def resnet34(num_classes=400):
+#def resnet34(num_classes=400):
     """Constructs a ResNet-34 model.
     """
-    model = ResNet(BasicBlock, [3, 4, 6, 3], num_classes=num_classes)
-    return model
+    #model = ResNet(BasicBlock, [3, 4, 6, 3], num_classes=num_classes)
+    #return model
 
 
 #def resnet50(**kwargs):
