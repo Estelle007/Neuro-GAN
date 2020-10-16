@@ -126,10 +126,8 @@ class ResNet(nn.Module):
         last_size = int(math.ceil(sample_size / 32))
         self.avgpool = nn.AvgPool3d(
             (last_duration, last_size, last_size), stride=1)
-
-        self.dropout = nn.Dropout3d(p=0.5, inplace=True)
-
         self.fc = nn.Linear(8192 * block.expansion, num_classes)
+        self.dropout = nn.Dropout3d(p=0.5, inplace=True)
 
         for m in self.modules():
             if isinstance(m, nn.Conv3d):
@@ -175,9 +173,10 @@ class ResNet(nn.Module):
         x = self.layer4(x)
 
         x = self.avgpool(x)
-        x = self.dropout(x)
         x = x.view(x.size(0), -1)  # reshape input x prepared for fc layer
         x = self.fc(x)
+        x = self.dropout(x)
+
         # m1 is [a x b] which is [batch size x in features]
         # m2 is [c x d] which is [in features x out features]
 
